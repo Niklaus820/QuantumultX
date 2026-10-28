@@ -1,0 +1,71 @@
+[general]
+loglevel=info
+server_check_url=http://connect.rom.miui.com/generate_204
+server_check_timeout=2000
+geo_location_checker=
+udp_relay=true
+dns_clean_cache=true
+ipv6=false
+
+[policy]
+static=🛑广告拦截, reject
+static=🎯国内直连, direct
+static=🚀手动节点, 节点A, 节点B
+url-test=🔮自动选择, 节点A, 节点B, url=http://connect.rom.miui.com/generate_204, interval=600, tolerance=100
+static=🌐海外出站, 🔮自动选择, 🚀手动节点
+
+[dns]
+dns=223.5.5.5,119.29.29.29
+dns_v4=223.5.5.5,119.29.29.29
+fake-ip=true
+dns_exclusion_list=*.cmpassport.com,*.pingan.com.cn,*.cmbchina.com,*.icbc.com.cn,*.jegotrip.com.cn,*.icitymobile.mobi,id6.me
+
+[rule]
+# 轻量域名后缀广告拦截，置顶；不依赖 MITM
+host-suffix, doubleclick.net, 🛑广告拦截
+host-suffix, googleadservices.com, 🛑广告拦截
+host-suffix, googlesyndication.com, 🛑广告拦截
+host-suffix, adsense.com, 🛑广告拦截
+host-suffix, adservice.google.com, 🛑广告拦截
+
+# ========== 国内主流CDN直连规则 新增 ==========
+host-suffix, aliyuncs.com, 🎯国内直连
+host-suffix, aliyuncdn.com, 🎯国内直连
+host-suffix, qiniucdn.com, 🎯国内直连
+host-suffix, qiniucloud.com, 🎯国内直连
+host-suffix, myqcloud.com, 🎯国内直连
+host-suffix, tencent-cloud.net, 🎯国内直连
+host-suffix, volcengine.com, 🎯国内直连
+host-suffix, bytedance.net, 🎯国内直连
+host-suffix, baidubce.com, 🎯国内直连
+host-suffix, jdcloud.com, 🎯国内直连
+host-suffix, huaweicloud.com, 🎯国内直连
+host-suffix, ks-cdn.com, 🎯国内直连
+# ==============================================
+
+# 局域网直连
+IP-CIDR,127.0.0.0/8,DIRECT,no-resolve
+IP-CIDR,10.0.0.0/8,DIRECT,no-resolve
+IP-CIDR,172.16.0.0/12,DIRECT,no-resolve
+IP-CIDR,192.168.0.0/16,DIRECT,no-resolve
+IP-CIDR,224.0.0.0/4,DIRECT,no-resolve
+
+# .cn 域名优先直连
+host-suffix, cn, 🎯国内直连
+
+# 国内IP段兜底直连（需要下载GeoLite2数据库，不想用就注释/删掉这一行）
+GEOIP,CN,🎯国内直连
+
+# 所有剩余流量走海外出站
+FINAL,🌐海外出站
+
+[rewrite]
+
+[mitm]
+hostname=
+
+[task_local]
+
+[server_remote]
+# 填入你的订阅地址，tag自定义名称，86400=24小时自动刷新
+# https://你的订阅地址, tag=机场, update-interval=86400, enabled=true
